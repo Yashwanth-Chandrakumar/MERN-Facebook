@@ -1,6 +1,35 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+const styles = {
+  loginContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    width: '100%',
+    backgroundColor: '#f0f2f5',
+  },
+  loginBox: {
+    backgroundColor: 'white',
+    padding: '40px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    width: '100%',
+    maxWidth: '400px',
+    margin: '0 auto',
+  },
+  title: {
+    color: '#1877f2',
+    marginBottom: '20px',
+  },
+  status: {
+    marginTop: '20px',
+    fontSize: '16px',
+    color: '#4b4f56',
+  },
+};
 const FacebookLogin = () => {
   const navigate = useNavigate();
 
@@ -99,12 +128,15 @@ const FacebookLogin = () => {
   }, []);
 
   return (
-    <div>
+    <div style={styles.loginContainer}>
+    <div style={styles.loginBox}>
+      <h1 style={styles.title}>Welcome</h1>
+      <p>Please log in to continue</p>
       {/* The JS SDK Login Button Container */}
       <div id="fb-button-container"></div>
-
-      <div id="status"></div>
+      <div id="status" style={styles.status}></div>
     </div>
+  </div>
   );
 };
 
