@@ -4,7 +4,7 @@ import { LoginSocialFacebook } from "reactjs-social-login";
 
 function App() {
   const [profile, setProfile] = useState(null);
-
+  const [accessToken,setAccessToken]=useState("");
   return (
     <div>
       {!profile ? (
@@ -13,6 +13,8 @@ function App() {
           onResolve={(response) => {
             console.log(response);
             setProfile(response.data);
+            setAccessToken(response.data.accessToken)
+            
           }}
           onReject={(error) => {
             console.log(error);
@@ -28,6 +30,7 @@ function App() {
         <div>
           <h1>{profile.name}</h1>
           <img src={profile.picture.data.url} />
+          <p>{accessToken}</p>
         </div>
       ) : (
         ""
