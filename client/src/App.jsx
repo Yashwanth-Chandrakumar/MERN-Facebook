@@ -14,7 +14,7 @@ function App() {
             console.log(response);
             setProfile(response.data);
             setAccessToken(response.data.accessToken)
-            
+            console.log(accessToken)
           }}
           onReject={(error) => {
             console.log(error);
