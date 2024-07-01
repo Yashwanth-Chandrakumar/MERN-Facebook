@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FacebookLogin = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     // Define the checkLoginState function globally
     window.checkLoginState = function () {
@@ -44,19 +47,31 @@ const FacebookLogin = () => {
     console.log(response); // The current login status of the person.
     if (response.status === 'connected') {
       // Logged into your webpage and Facebook.
+      // Save the access token to localStorage
+      localStorage.setItem('fb_access_token', response.authResponse.accessToken);
       testAPI();
+      // Navigate to the /home page
+      navigate("/home");
     } else {
       // Not logged into your webpage or we are unable to tell.
-      document.getElementById('status').innerHTML = 'Please log into this webpage.';
+      const statusElement = document.getElementById('status');
+      if (statusElement) {
+        statusElement.innerHTML = 'Please log into this webpage.';
+      }
     }
   }
 
   // Testing Graph API after login.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    window.FB.api('/me', function (response) {
+    window.FB.api('/me?fields=name,picture', function (response) {
       console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+      localStorage.setItem('fb_user_name', response.name);
+      localStorage.setItem('fb_user_picture', response.picture.data.url);
+      const statusElement = document.getElementById('status');
+      if (statusElement) {
+        statusElement.innerHTML = 'Thanks for logging in, ' + response.name + '!';
+      }
     });
   }
 

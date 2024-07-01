@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FacebookLogin from "./components/FbLogin";
+import Home from "./components/Home";
 function App() {
-  const [profile, setProfile] = useState(null);
-  const [accessToken,setAccessToken]=useState("");
+  
   return (
     <div>
-      Login
-      <FacebookLogin/>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element = {<FacebookLogin/>}/>
+        <Route path="/home" element = {<Home/>}/>
+      </Routes>
+      </BrowserRouter>
       </div>
   );
 }
