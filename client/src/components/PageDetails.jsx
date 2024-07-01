@@ -38,6 +38,7 @@ const PageDetails = () => {
           return acc;
         }, {});
         setMetrics(metricsData);
+        console.log(metricsData)
       } catch (error) {
         console.error('Error fetching metrics:', error);
       }
