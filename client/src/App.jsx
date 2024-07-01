@@ -9,7 +9,7 @@ function App() {
     <div>
       {!profile ? (
         <LoginSocialFacebook
-          appId="344674848734820"
+          appId="374538715737130"
           onResolve={(response) => {
             console.log(response);
             setProfile(response.data);
