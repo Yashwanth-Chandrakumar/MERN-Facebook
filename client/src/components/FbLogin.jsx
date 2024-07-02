@@ -44,7 +44,7 @@ const FacebookLogin = () => {
     // Initialize the Facebook SDK
     window.fbAsyncInit = function () {
       window.FB.init({
-        appId: '1518751785720798',
+        appId: '7583232805120488',
         cookie: true, // Enable cookies to allow the server to access the session.
         xfbml: true, // Parse social plugins on this webpage.
         version: 'v20.0', // Use this Graph API version for this call.
@@ -116,7 +116,7 @@ const FacebookLogin = () => {
       fbButton.setAttribute('data-layout', 'default');
       fbButton.setAttribute('data-auto-logout-link', 'false');
       fbButton.setAttribute('data-use-continue-as', 'true');
-      fbButton.setAttribute('data-config_id', '1625178464937252');
+      fbButton.setAttribute('data-config_id', '994230292345323');
       fbButton.setAttribute('onlogin', 'checkLoginState();');
       document.getElementById('fb-button-container').appendChild(fbButton);
 
