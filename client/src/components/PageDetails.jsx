@@ -25,9 +25,11 @@ const PageDetails = () => {
 
     const fetchMetrics = async () => {
       try {
-        const response = await fetch(
-          `https://graph.facebook.com/${pageId}/insights?metric=page_fans,page_impressions,page_impressions_unique,page_post_engagements,post_engaged_users&access_token=${pageAccessToken}`
-        );
+        let url = `https://graph.facebook.com/${pageId}/insights?metric=page_fans,page_impressions,page_impressions_unique,page_post_engagements,post_engaged_users&access_token=${pageAccessToken}`;
+        if (since && until) {
+          url += `&since=${Math.floor(new Date(since).getTime() / 1000)}&until=${Math.floor(new Date(until).getTime() / 1000)}`;
+        }
+        const response = await fetch(url);
         const data = await response.json();
         const metricsData = data.data.reduce((acc, metric) => {
           acc[metric.name] = acc[metric.name] || {};
@@ -48,7 +50,7 @@ const PageDetails = () => {
       fetchPageDetails();
       fetchMetrics();
     }
-  }, [pageId, pageAccessToken]);
+  }, [pageId, pageAccessToken, since, until]);
 
   const handleDateChange = (e) => {
     const { name, value } = e.target;
