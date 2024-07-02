@@ -29,15 +29,22 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Home</h1>
-      {userName && <p>Welcome, {userName}!</p>}
-      {userPicture && <img src={userPicture} alt={`${userName}'s profile`} />}
+      <nav className="navbar">
+        <div className="user-info">
+          {userName && <span className="user-name">{userName}</span>}
+          {userPicture && <img src={userPicture} alt={`${userName}'s profile`} className="user-avatar" />}
+        </div>
+      </nav>
       <div className="page-list">
         {pages.map((page) => (
           <div key={page.id} className="page-card" onClick={() => handleCardClick(page.id, page.access_token)}>
             <h2>{page.name}</h2>
             <p>Category: {page.category}</p>
             <p>Tasks: {page.tasks.join(', ')}</p>
+            <div className="card-footer">
+              <span className="card-date">Last updated: {new Date().toLocaleDateString()}</span>
+              <span className="card-read-more">View Page</span>
+            </div>
           </div>
         ))}
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import './page.css'; // Make sure to create this CSS file
 
 const PageDetails = () => {
   const { pageId } = useParams();
@@ -40,7 +41,7 @@ const PageDetails = () => {
           return acc;
         }, {});
         setMetrics(metricsData);
-        console.log(metricsData)
+        console.log(metricsData);
       } catch (error) {
         console.error('Error fetching metrics:', error);
       }
@@ -57,22 +58,24 @@ const PageDetails = () => {
     if (name === 'since') setSince(value);
     if (name === 'until') setUntil(value);
   };
-
   if (!pageDetails) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.name}>{pageDetails.name}</h1>
-      {pageDetails.picture && (
-        <img
-          src={pageDetails.picture.data.url}
-          alt={`${pageDetails.name}'s profile`}
-          style={styles.picture}
-        />
-      )}
-      <div style={styles.datePicker}>
+    <div className="page-details-container">
+      <header className="page-header">
+        {pageDetails.picture && (
+          <img
+            src={pageDetails.picture.data.url}
+            alt={`${pageDetails.name}'s profile`}
+            className="page-picture"
+          />
+        )}
+        <h1 className="page-name">{pageDetails.name}</h1>
+      </header>
+
+      <div className="date-picker">
         <label>
           Since:
           <input type="date" name="since" value={since} onChange={handleDateChange} />
@@ -82,113 +85,56 @@ const PageDetails = () => {
           <input type="date" name="until" value={until} onChange={handleDateChange} />
         </label>
       </div>
-      <div style={styles.detailsContainer}>
-        <div style={styles.detail}>
+
+      <div className="page-info">
+        <div className="info-item">
           <strong>Category:</strong> {pageDetails.category}
         </div>
         {pageDetails.about && (
-          <div style={styles.detail}>
+          <div className="info-item">
             <strong>About:</strong> {pageDetails.about}
           </div>
         )}
         {pageDetails.website && (
-          <div style={styles.detail}>
+          <div className="info-item">
             <strong>Website:</strong>{' '}
             <a href={pageDetails.website} target="_blank" rel="noopener noreferrer">
               {pageDetails.website}
             </a>
           </div>
         )}
-        <div style={styles.metricsContainer}>
-          <div style={styles.metricCard}>
-            <strong>Total Followers (Day):</strong>
-            <div>Day: {metrics.page_fans?.day?.[0]?.value || 0}</div>
-          </div>
-          <div style={styles.metricCard}>
-            <strong>Total Engagements:</strong>
-            <div>Day: {metrics.page_post_engagements?.day?.[0]?.value || 0}</div>
-            <div>Week: {metrics.page_post_engagements?.week?.[0]?.value || 0}</div>
-            <div>28 Days: {metrics.page_post_engagements?.days_28?.[0]?.value || 0}</div>
-          </div>
-          <div style={styles.metricCard}>
-            <strong>Total Impressions:</strong>
-            <div>Day: {metrics.page_impressions?.day?.[0]?.value || 0}</div>
-            <div>Week: {metrics.page_impressions?.week?.[0]?.value || 0}</div>
-            <div>28 Days: {metrics.page_impressions?.days_28?.[0]?.value || 0}</div>
-          </div>
-          <div style={styles.metricCard}>
-            <strong>Total Reach:</strong>
-            <div>Day: {metrics.page_impressions_unique?.day?.[0]?.value || 0}</div>
-            <div>Week: {metrics.page_impressions_unique?.week?.[0]?.value || 0}</div>
-            <div>28 Days: {metrics.page_impressions_unique?.days_28?.[0]?.value || 0}</div>
-          </div>
-          <div style={styles.metricCard}>
-            <strong>Total Reactions (Lifetime):</strong>
-            <div>Lifetime: {metrics.post_engaged_users?.lifetime?.[0]?.value || 0}</div>
-          </div>
+      </div>
+
+      <div className="metrics-container">
+        <div className="metric-card">
+          <h3>Total Followers</h3>
+          <div className="metric-value">Day: {metrics.page_fans?.day?.[0]?.value || 0}</div>
+        </div>
+        <div className="metric-card">
+          <h3>Total Engagements</h3>
+          <div className="metric-value">Day: {metrics.page_post_engagements?.day?.[0]?.value || 0}</div>
+          <div className="metric-value">Week: {metrics.page_post_engagements?.week?.[0]?.value || 0}</div>
+          <div className="metric-value">28 Days: {metrics.page_post_engagements?.days_28?.[0]?.value || 0}</div>
+        </div>
+        <div className="metric-card">
+          <h3>Total Impressions</h3>
+          <div className="metric-value">Day: {metrics.page_impressions?.day?.[0]?.value || 0}</div>
+          <div className="metric-value">Week: {metrics.page_impressions?.week?.[0]?.value || 0}</div>
+          <div className="metric-value">28 Days: {metrics.page_impressions?.days_28?.[0]?.value || 0}</div>
+        </div>
+        <div className="metric-card">
+          <h3>Total Reach</h3>
+          <div className="metric-value">Day: {metrics.page_impressions_unique?.day?.[0]?.value || 0}</div>
+          <div className="metric-value">Week: {metrics.page_impressions_unique?.week?.[0]?.value || 0}</div>
+          <div className="metric-value">28 Days: {metrics.page_impressions_unique?.days_28?.[0]?.value || 0}</div>
+        </div>
+        <div className="metric-card">
+          <h3>Total Reactions (Lifetime)</h3>
+          <div className="metric-value">Lifetime: {metrics.post_engaged_users?.lifetime?.[0]?.value || 0}</div>
         </div>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    maxWidth: '800px',
-    margin: '0 auto',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    borderRadius: '8px',
-    backgroundColor: '#f9f9f9',
-  },
-  name: {
-    fontSize: '2em',
-    marginBottom: '20px',
-    textAlign: 'center',
-  },
-  picture: {
-    width: '150px',
-    height: '150px',
-    borderRadius: '50%',
-    marginBottom: '20px',
-    objectFit: 'cover',
-  },
-  datePicker: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '20px',
-  },
-  detailsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-  },
-  detail: {
-    marginBottom: '10px',
-    textAlign: 'center',
-    fontSize: '1em',
-  },
-  metricsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '20px',
-  },
-  metricCard: {
-    marginBottom: '10px',
-    textAlign: 'center',
-    fontSize: '1em',
-    backgroundColor: '#fff',
-    padding: '10px',
-    borderRadius: '8px',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    maxWidth: '400px',
-  },
 };
 
 export default PageDetails;
